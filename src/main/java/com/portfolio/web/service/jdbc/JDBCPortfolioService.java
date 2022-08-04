@@ -37,9 +37,9 @@ public class JDBCPortfolioService implements PortfolioService {
 	
 	@Override
 	public Portfolio getPortfolio() {
-		String sqlAward = "SELECT * FROM AWARD";
-		String sqlEducation = "SELECT * FROM EDUCATION ORDER BY ADMISSION";
-		String sqlExperience = "SELECT * FROM EXPERIENCE";
+		String sqlAward = "SELECT * FROM AWARD ORDER BY AWARD_DATE DESC";
+		String sqlEducation = "SELECT * FROM EDUCATION ORDER BY ADMISSION DESC";
+		String sqlExperience = "SELECT * FROM EXPERIENCE ORDER BY JOIN DESC";
 		String sqlProjectSummaryView = "SELECT * FROM PROJECT_SUMMARY_VIEW";
 		String sqlSkill = "SELECT * FROM SKILL ORDER BY PERCENT DESC";
 		String sqlUser = "SELECT * FROM \"USER\"";
@@ -94,11 +94,15 @@ public class JDBCPortfolioService implements PortfolioService {
 				String introduce = rs.getString("INTRODUCE");
 				String category = rs.getString("CATEGORY");
 				String images = rs.getString("IMAGE");
-				StringTokenizer stringTokenizer = new StringTokenizer(images, ",");
+				
 				String repImage = "";
-				if (stringTokenizer.hasMoreTokens()) {
-					repImage = stringTokenizer.nextToken();
-				}
+				if (images != null) {
+					StringTokenizer stringTokenizer = new StringTokenizer(images, ",");
+					
+					if (stringTokenizer.hasMoreTokens()) {
+						repImage = stringTokenizer.nextToken();
+					}
+				}				
 				
 				ProjectSummaryView projectSummaryView = new ProjectSummaryView(title, repImage, introduce, category);
 				projectSummaryViewList.add(projectSummaryView);
@@ -152,11 +156,20 @@ public class JDBCPortfolioService implements PortfolioService {
 			ResultSet rs = preparedStatement.executeQuery();
 			if (rs.next()) {
 				String images = rs.getString("IMAGE");
+//				StringTokenizer st = new StringTokenizer(images);
+//				String[] imageList = new String[st.countTokens()];
+				
+//				int count = 0;
+//				while (st.hasMoreTokens()) {
+//					imageList[count++] = st.nextToken();
+//				}
+				
 				String introduce = rs.getString("INTRODUCE");
 				String content = rs.getString("CONTENT");
 				String githubURL = rs.getString("URL");
 				
 				project = new Project(title, images, introduce, content, githubURL, category);
+//				project = new Project(title, imageList, introduce, content, githubURL, category);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

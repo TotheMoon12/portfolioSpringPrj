@@ -18,19 +18,11 @@ public class HomeController {
 	@Autowired
 	JDBCPortfolioService jdbcPortfolioService;
 	
-	@RequestMapping("index")
+	@RequestMapping(value = {"", "index"})
 	public String index(Model model) {
+		System.out.println("Home Controller");
 		Portfolio portfolio = jdbcPortfolioService.getPortfolio();
 		model.addAttribute("portfolio", portfolio);
 		return "index";
 	}
-	
-	
-	/*
-	 * @Override public ModelAndView handleRequest(HttpServletRequest request,
-	 * HttpServletResponse response) throws Exception { // TODO Auto-generated
-	 * method stub System.out.println("hello"); ModelAndView mv = new
-	 * ModelAndView(); mv.setViewName("index"); return mv; }
-	 */
-
 }

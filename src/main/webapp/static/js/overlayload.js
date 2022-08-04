@@ -84,6 +84,7 @@ function closeOverlay() {
 	let curURL = $(window.location)[0].href;
 	let lastIndex = curURL.lastIndexOf("#");
 	let url = curURL.substring(0, lastIndex - 1);
+	url += "/index";
 
 	window.history.pushState(null, null, url);
 	$(".project-overlay").addClass("hidden");

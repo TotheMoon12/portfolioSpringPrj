@@ -282,11 +282,13 @@
 	var checkOverlay = function() {
 		let curURL = $(window.location)[0].href;
 		let specialIndex = curURL.indexOf("#");
-		
 		if (specialIndex != -1) {
-			let url = curURL.replace("#", "");
-			myload(url);
-		}	
+			let url = curURL.substring(0, specialIndex - 1) + "/project";
+			let data = curURL.substring(specialIndex).split("/");
+			let category = data[1];
+			let title = data[2].replaceAll("%20", " ");
+			myload(url, category, title);
+		}
 	}
 
 	// Document on load.

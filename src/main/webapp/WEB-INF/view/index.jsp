@@ -2,13 +2,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE HTML>
 <html>
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Jackson Template</title>
+	<title>${portfolio.user.name} 포트폴리오</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
@@ -183,8 +184,11 @@ Copyright <script>document.write(new Date().getFullYear());</script> All rights 
 							<p> 주로 자바를 이용하여 개발을 하고 있습니다.</p>
 						</div>
 						<c:forEach var="skill" items="${portfolio.skillList}" varStatus="status">
-						<c:if test="${status.count % 2 == 0}">
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
+			            <c:set var="animate" value="fadeInLeft"></c:set>
+			            <c:if test="${status.count % 2 == 1}">
+			            </c:if>
+			            <c:set var="animate" value="fadeInRight"></c:set>
+			            <div class="col-md-6 animate-box" data-animate-effect="${animate}">
 							<div class="progress-wrap">
 								<h3>${skill.name}</h3>
 								<div class="progress">
@@ -194,21 +198,7 @@ Copyright <script>document.write(new Date().getFullYear());</script> All rights 
 								  	</div>
 								</div>
 							</div>
-						</div>							
-						</c:if>
-						<c:if test="${status.count % 2 == 1}">
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInRight">
-							<div class="progress-wrap">
-								<h3>${skill.name}</h3>
-								<div class="progress">
-								 	<div class="progress-bar color-${status.count}" role="progressbar" aria-valuenow="${skill.percent}"
-								  	aria-valuemin="0" aria-valuemax="100" style="width:${skill.percent}%">
-								    <span>${skill.percent}%</span>
-								  	</div>
-								</div>
-							</div>
-						</div>						
-						</c:if>
+						</div>
 						</c:forEach>
 					</div>
 				</div>
@@ -238,7 +228,8 @@ Copyright <script>document.write(new Date().getFullYear());</script> All rights 
 					                  <i class="icon-pen2"></i>
 					               </div>
 					               <div class="timeline-label">
-					                  <h2>${education.schoolName} <span> ${education.admission.year + 1900}~${education.graduation.year + 1900}</span></h2>
+					                  <%-- <h2>${education.schoolName} <span> ${education.admission.year + 1900}~${education.graduation.year + 1900}</span></h2> --%>
+					                  <h2>${education.schoolName}<span><fmt:formatDate value="${education.admission}" pattern="yyyy-MM"/>~<fmt:formatDate value="${education.graduation}" pattern="yyyy-MM"/></span></h2>					                  
 					                  <p>${education.content}</p>
 					               </div>
 					            </div>
@@ -273,7 +264,7 @@ Copyright <script>document.write(new Date().getFullYear());</script> All rights 
 					                  <i class="icon-pen2"></i>
 					               </div>
 					               <div class="timeline-label">
-									  <h2 >${experience.name }<span>${experience.join.year + 1900}-${experience.leave.year + 1900}</span></h2>									  
+									  <h2 >${experience.name}<span><fmt:formatDate value="${experience.join}" pattern="yyyy-MM"/>~<fmt:formatDate value="${experience.leave}" pattern="yyyy-MM"/></span></h2>									  
 					                  <p>${experience.content}</p>									  
 					               </div>
 					            </div>
@@ -307,8 +298,8 @@ Copyright <script>document.write(new Date().getFullYear());</script> All rights 
 					                  <i class="icon-pen2"></i>
 					               </div>
 					               <div class="timeline-label">
-									  <h2>${award.name}<span>${award.awardDate.year + 1900}</span></h2>									  
-					                  <p>${award.content }</p>
+									  <h2>${award.name}<span><fmt:formatDate value="${award.awardDate}" pattern="yyyy-MM-dd"/></span></h2>									  
+					                  <p>${award.content}</p>
 					               </div>
 					            </div>
 					         </article>
@@ -344,47 +335,12 @@ Copyright <script>document.write(new Date().getFullYear());</script> All rights 
 								<div class="desc">
 									<div class="con">
 										<h3><a name="project-item" path="project/${project.category}/${project.title}" href="javascript:void(0);">${project.title}</a></h3>
-										<span>${project.introduce}</span>
-										<p class="icon">
-											<span><a href="#"><i class="icon-share3"></i></a></span>
-											<span><a href="#"><i class="icon-eye"></i> 100</a></span>
-											<span><a href="#"><i class="icon-heart"></i> 49</a></span>
-										</p>
+										<span>${project.introduce}</span>										
 									</div>									
 								</div>
 							</div>
 						</div>
 						</c:forEach>
-						<!-- <div class="col-md-6 animate-box blockchain work" data-animate-effect="fadeInLeft">
-							<div class="project" style="background-image: url(images/img-1.jpg);">
-								<div class="desc">
-									<div class="con">
-										<h3><a name="project-item" path="project/blockchain/voting.html" href="javascript:void(0);">hyperledger-fabric</a></h3>
-										<span>Website</span>
-										<p class="icon">
-											<span><a href="#"><i class="icon-share3"></i></a></span>
-											<span><a href="#"><i class="icon-eye"></i> 100</a></span>
-											<span><a href="#"><i class="icon-heart"></i> 49</a></span>
-										</p>
-									</div>									
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box backend work" data-animate-effect="fadeInRight">
-							<div class="project" style="background-image: url(images/img-2.jpg);">
-								<div class="desc">
-									<div class="con">
-										<h3><a name="overlay-projectTest" path="project/back-end/iot.html" href="javascript:void(0);">iot</a></h3>
-										<span>Website</span>
-										<p class="icon">
-											<span><a href="#"><i class="icon-share3"></i></a></span>
-											<span><a href="#"><i class="icon-eye"></i> 100</a></span>
-											<span><a href="#"><i class="icon-heart"></i> 49</a></span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div> -->
 					</div>
 					
 				</div>

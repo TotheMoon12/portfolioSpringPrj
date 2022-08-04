@@ -17,13 +17,17 @@ public class ProjectController {
 	
 	@RequestMapping("project")
 	public String project(String category, String title, Model model) {
-		System.out.print("project");
-		System.out.println("category : " + category);
-		System.out.println("title : " + title);
+		System.out.println("project Controler");
 		Project project = jdbcPortfolioService.getProject(category, title);
-		System.out.print(project.getIntroduce());
 		model.addAttribute("project", project);
+		String images = project.getImages();
+
+		String firstImage = "";
+		if (images != null) {
+			String[] imageList = images.split(",");
+			firstImage = "images/project/" + project.getCategory() + "/" +project.getTitle() + "/" +imageList[0];
+		}
+		model.addAttribute("firstImage", firstImage);
 		return "project/project";
-	}
-	
+	}	
 }
